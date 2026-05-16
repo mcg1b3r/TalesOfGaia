@@ -102,16 +102,16 @@ class Level1Scene extends Phaser.Scene {
         this.anchoRealMapa = datosMapa.width * datosMapa.tilewidth * 0.32;
         this.altoRealMapa = datosMapa.height * datosMapa.tileheight * 0.32;
 
-        // 1. FONDO
+        // 1. FONS //
         let fondo = this.add.image(0, 0, "fons").setOrigin(0, 0);
         fondo.setScrollFactor(0);
         fondo.setDisplaySize(640, 360);
 
-        // 2. AUDIO
+        // 2. AUDIO //
         this.music = this.sound.add("music", { loop: true, volume: 0.5 });
         this.music.play();
 
-        // 3. GRUPOS FÍSICOS
+        // 3. GRUPS AMB FÍSIQUES //
         this.plataformasEstaticas = this.physics.add.staticGroup();
         this.bombs = this.physics.add.group();
         this.enemies = this.physics.add.group();
@@ -131,7 +131,7 @@ class Level1Scene extends Phaser.Scene {
             });
         }
 
-        // 4. JUGADOR
+        // 4. PLAYER //
         this.player = this.physics.add.sprite(spawnX, spawnY, "player").setOrigin(0.5, 1);
         this.player.setScale(0.8); 
         this.player.setBounce(0.1);
@@ -140,7 +140,7 @@ class Level1Scene extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, this.anchoRealMapa, this.altoRealMapa);
         this.player.body.setBoundsRectangle(new Phaser.Geom.Rectangle(0, 0, this.anchoRealMapa, this.altoRealMapa + 100));
 
-        // 5. ANIMACIONES
+        // 5. ANIMACIONS PLAYER//
         if (!this.anims.exists('quieto')) {
             this.anims.create({ key: 'quieto', frames: [ { key: 'player', frame: 0 } ], frameRate: 20 });
         }
@@ -159,7 +159,7 @@ class Level1Scene extends Phaser.Scene {
 
         this.lastDirection = 'derecha';
 
-        // 6. PROCESADO DEL MAPA
+        // 6. PROCESAT DEL MAPA //
         if (datosMapa.layers) {
             datosMapa.layers.forEach(capa => {
                 if (capa.data) {
@@ -210,7 +210,7 @@ class Level1Scene extends Phaser.Scene {
             });
         }
 
-        // 7. CONTROLES Y COLISIONES
+        // 7. CONTROLS I COL·LISIONS //
         this.cursors = this.input.keyboard.createCursorKeys();
 
         this.physics.add.collider(this.player, this.plataformasEstaticas);
@@ -221,44 +221,34 @@ class Level1Scene extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.bombs, this.hitBomb, null, this);
         this.physics.add.collider(this.player, this.enemies, this.hitEnemy, null, this);
 
-        // 8. MARCADOR
+        // 8. MARCADOR DE PUNTS //
         this.scoreText = this.add.text(12, 12, 'Puntos: ' + this.score, { 
             fontSize: '14px', fill: '#ffffff', fontStyle: 'bold', fontFamily: 'Arial',
             backgroundColor: '#000000', padding: { x: 6, y: 4 }
         });
         this.scoreText.setScrollFactor(0).setDepth(999);    
         
-        
-        const posX = 400; // Ajusta a la teva posició
+        // 9. EMITTER //
+        const posX = 400; 
         const posY = 500;
 
         const guspires = this.add.particles(0, 0, 'guspira', {
-            // Rang d'aparició a la base (aproximadament l'amplada de la teva imatge de 64px)
+            
             x: { min: 0, max: 700 },
             y: posY,
 
-        // Moviment vertical i dispersió lateral
+        
             speedY: { min: -120, max: -280 },
             speedX: { min: -50, max: 50 },
             gravityY: -60, 
 
-        // Cicle de vida curt perquè es consumeixin ràpid
             lifespan: { min: 800, max: 2000 },
-
-        // AJUST CLAU PER A 64x64: 
-        // Comencen a un 15% o 20% de la seva mida real (uns 10-12px) i es redueixen a 0
             scale: { start: 0.2, end: 0 },
-        
-        // Desaparició suau
             alpha: { start: 1, end: 0 },
-
-        // Degradat de color de foc i efecte de brillantor acumulativa
             color: [ 0xffff00, 0xffa500, 0xff0000 ],
             blendMode: 'ADD',
-
-        // Generació ràpida per crear sensació de flux constant
             quantity: 6,
-            frequency: 40 
+            frequency: 40,
     });
     }
 
@@ -270,7 +260,7 @@ class Level1Scene extends Phaser.Scene {
 
         this.enemies.children.entries.forEach(enemy => {
             enemy.body.setSize(enemy.width, enemy.height).setOffset(0, 0);
-            this.controlarPatrullaEdge(enemy, -50); // Velocidad normal Nivel 1
+            this.controlarPatrullaEdge(enemy, -50); 
         });
 
         this.bombs.children.entries.forEach(bomb => {
@@ -278,6 +268,7 @@ class Level1Scene extends Phaser.Scene {
             this.controlarPatrullaEdge(bomb, -50); 
         });
 
+        //MONTROL DE MOVIMENT I SPRITESHEET //
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-160);
             this.lastDirection = 'izquierda'; 
@@ -306,6 +297,7 @@ class Level1Scene extends Phaser.Scene {
         }
     }
 
+    //MOVIMENTS ENEMICS//
     controlarPatrullaEdge(sprite, velocidadBase) {
         if (!sprite.active || !sprite.body) return;
         if (sprite.body.velocity.x === 0) { sprite.setVelocityX(velocidadBase); return; }
@@ -328,6 +320,7 @@ class Level1Scene extends Phaser.Scene {
         }
     }
 
+    //MONEDES//
     collectCoin(player, coin) {
         coin.disableBody(true, true);
         this.score += 10;
@@ -339,6 +332,7 @@ class Level1Scene extends Phaser.Scene {
         }
     }
 
+    //EXPLOSIÓ BOMBES//
     hitBomb(player, bomb) {
         bomb.disableBody(true, false); this.physics.pause();
         player.setTint(0xff0000); if (this.music) this.music.stop();
@@ -357,6 +351,7 @@ class Level1Scene extends Phaser.Scene {
         });
     }
 
+    //FISIQES PLAYER VS ENEMY//
     hitEnemy(player, enemy) {
         if ((player.body.velocity.y > 0 || enemy.body.touching.up) && player.body.bottom <= enemy.body.top + 10) {
             enemy.disableBody(true, true); player.setVelocityY(-260); this.score += 50; this.scoreText.setText('Puntos: ' + this.score); 
@@ -365,14 +360,13 @@ class Level1Scene extends Phaser.Scene {
         }
     }
 
-    // CORREGIDO: Pantalla negra con letras rojas
+    // PANTALLA GAME OVER //
     ejecutarGameOver() {
         this.physics.pause(); 
         this.player.setTint(0xff0000); 
         if (this.music) this.music.stop();
         this.time.delayedCall(1000, () => {
 
-        // Rectángulo negro absoluto que tapa toda la pantalla
         let telonNegro = this.add.graphics();
         telonNegro.fillStyle(0x000000, 1);
         telonNegro.fillRect(0, 0, 640, 360);
@@ -410,28 +404,28 @@ class Level2Scene extends Phaser.Scene {
         }
         
 
-        // CONTROL DE SEGURIDAD: Bloquea el vacío durante el primer segundo
+        // CONTROL PER EVITAR MORT INTANTANIA //
         this.permitirMuertePorVacio = false;
         this.time.delayedCall(1000, () => {
             this.permitirMuertePorVacio = true;
         });
 
-        // CÁLCULO DINÁMICO DEL TAMAÑO REAL DEL MAPA EN PANTALLA
+        // CÁLCUL DINÀMIC MIDA DEL MAPA //
         this.anchoRealMapa = datosMapa.width * datosMapa.tilewidth * 0.32;
         this.altoRealMapa = datosMapa.height * datosMapa.tileheight * 0.32;
 
         this.totalCoinsInMap = 0;
 
-        // 1. FONDO (Fijo en el horizonte)
+        // 1. FONS // 
         let fondo = this.add.image(0, 0, "fons").setOrigin(0, 0);
         fondo.setScrollFactor(0);
         fondo.setDisplaySize(640, 360);
 
-        // 2. AUDIO
+        // 2. AUDIO //
         this.music = this.sound.add("music", { loop: true, volume: 0.5 });
         this.music.play();
 
-        // 3. GRUPOS FÍSICOS
+       // 3. GRUPS AMB FÍSIQUES //
         this.plataformasEstaticas = this.physics.add.staticGroup();
         this.bombs = this.physics.add.group();
         this.enemies = this.physics.add.group();
@@ -440,7 +434,6 @@ class Level2Scene extends Phaser.Scene {
         let spawnX = 80;  
         let spawnY = 100; 
 
-        // IDENTIFICACIÓN AUTOMÁTICA DE CAPAS
         let nombreCapaSueloReal = "";
         if (datosMapa.layers) {
             const capaSueloEncontrada = datosMapa.layers.find(l => l.data);
@@ -449,7 +442,6 @@ class Level2Scene extends Phaser.Scene {
             }
         }
 
-        // Leer Spawn del jugador desde la capa de objetos de Tiled
         if (datosMapa.layers) {
             datosMapa.layers.forEach(capa => {
                 if (capa.objects && capa.name.toLowerCase().includes("player")) {
@@ -461,19 +453,19 @@ class Level2Scene extends Phaser.Scene {
             });
         }
 
-        // 4. JUGADOR
+        // 4. PLAYER //
         this.player = this.physics.add.sprite(spawnX, spawnY, "player").setOrigin(0.5, 1);
         this.player.setScale(0.8); 
         this.player.setBounce(0.1);
         this.player.setCollideWorldBounds(true);
 
-        // Ajuste de límites del mundo grande
+        // 5. AJUSTAMENTS LIMITS DEL MAPA //
         this.physics.world.setBounds(0, 0, this.anchoRealMapa, this.altoRealMapa);
         this.player.body.setBoundsRectangle(new Phaser.Geom.Rectangle(0, 0, this.anchoRealMapa, this.altoRealMapa + 100));
 
         this.lastDirection = 'derecha';
 
-        // 5. PROCESADO AUTOMÁTICO DE LOS ELEMENTOS DEL MAPA 2
+        // 6. PROCESAT DEL MAPA //
         if (datosMapa.layers) {
             datosMapa.layers.forEach(capa => {
                 if (capa.data) {
@@ -532,7 +524,7 @@ class Level2Scene extends Phaser.Scene {
 
         this.cursors = this.input.keyboard.createCursorKeys();
 
-        // 6. ASIGNACIÓN DE COLISIONES
+        // 7. CONTROLS I COL·LISIONS //
         this.physics.add.collider(this.player, this.plataformasEstaticas);
         this.physics.add.collider(this.bombs, this.plataformasEstaticas);
         this.physics.add.collider(this.enemies, this.plataformasEstaticas);
@@ -541,45 +533,39 @@ class Level2Scene extends Phaser.Scene {
         this.physics.add.overlap(this.player, this.bombs, this.hitBomb, null, this);
         this.physics.add.collider(this.player, this.enemies, this.hitEnemy, null, this);
 
-        // 7. MARCADOR FIJO
+        // 8. MARCADOR DE PUNTS //
         this.scoreText = this.add.text(12, 12, 'Puntos: ' + this.score, { 
             fontSize: '14px', fill: '#ffffff', fontStyle: 'bold', fontFamily: 'Arial',
             backgroundColor: '#000000', padding: { x: 6, y: 4 }
         });
         this.scoreText.setScrollFactor(0).setDepth(999);
 
-        // 8. CÁMARA DE SEGUIMIENTO SUAVE
+        // 9. CÁMARA DE SEGUIMIENTO SUAVE //
         this.cameras.main.setBounds(0, 0, this.anchoRealMapa, this.altoRealMapa);
         this.cameras.main.startFollow(this.player, true, 0.1, 0.1);
 
-      const amplePantalla = this.sys.game.config.width;
-const altPantalla = this.sys.game.config.height;
+        // 9. EMITTER //
+        const amplePantalla = this.sys.game.config.width;
+        const altPantalla = this.sys.game.config.height;
 
-const guspires = this.add.particles(0, 0, 'guspira', {
-    x: { min: 0, max: amplePantalla },
-    y: altPantalla + 10,
+        const guspires = this.add.particles(0, 0, 'guspira', {
+        x: { min: 0, max: amplePantalla },
+        y: altPantalla + 10,
 
-    speedY: { min: -120, max: -280 },
-    speedX: { min: -50, max: 50 },
-    gravityY: -60, 
-    lifespan: { min: 800, max: 2000 },
-
-    // 1. MÉS PETITES: Baixem la mida inicial al 12% per compensar la imatge de 64x64
-    scale: { start: 0.12, end: 0 }, 
-    
-    alpha: { start: 0.6, end: 0 },
-    color: [ 0xffff00, 0xffa500, 0xff0000 ],
-    blendMode: 'ADD',
-
-    // 2. MENYS QUANTITAT: En lloc de 6, en creem només 2 alhora
-    quantity: 6, 
-
-    // 3. MÉS ESPAIADES: En lloc de cada 40ms, neixen cada 80ms perquè no s'acumulin tant
-    frequency: 80 
+        speedY: { min: -120, max: -280 },
+        speedX: { min: -50, max: 50 },
+        gravityY: -60, 
+        lifespan: { min: 800, max: 2000 },
+        scale: { start: 0.12, end: 0 }, 
+        alpha: { start: 0.6, end: 0 },
+        color: [ 0xffff00, 0xffa500, 0xff0000 ],
+        blendMode: 'ADD',
+        quantity: 6, 
+        frequency: 80 
 });
 
-guspires.setScrollFactor(0);
-    ;
+        guspires.setScrollFactor(0);
+        ;
     }
 
     update() {
@@ -599,6 +585,7 @@ guspires.setScrollFactor(0);
             this.controlarPatrullaEdge(bomb, -20); 
         });
 
+        // CONTROL DE MOVIMENT I SPRITESHEET //
         if (this.cursors.left.isDown) {
             this.player.setVelocityX(-160);
             this.lastDirection = 'izquierda'; 
@@ -626,7 +613,7 @@ guspires.setScrollFactor(0);
             this.ejecutarGameOver();
         }
     }
-
+    //MOVIMENTS ENEMICS//
     controlarPatrullaEdge(sprite, velocidadBase) {
         if (!sprite.active || !sprite.body) return;
         if (sprite.body.velocity.x === 0) { sprite.setVelocityX(velocidadBase); return; }
@@ -649,6 +636,7 @@ guspires.setScrollFactor(0);
         }
     }
 
+    //MONEDES//
     collectCoin(player, coin) {
         coin.disableBody(true, true);
         this.score += 10;
@@ -669,6 +657,7 @@ guspires.setScrollFactor(0);
         }
     }
 
+    //EXPLOSIÓ BOMBES//    
     hitBomb(player, bomb) {
         bomb.disableBody(true, false); this.physics.pause();
         player.setTint(0xff0000); if (this.music) this.music.stop();
@@ -687,6 +676,7 @@ guspires.setScrollFactor(0);
         });
     }
 
+    //FISIQES PLAYER VS ENEMY//
     hitEnemy(player, enemy) {
         if ((player.body.velocity.y > 0 || enemy.body.touching.up) && player.body.bottom <= enemy.body.top + 10) {
             enemy.disableBody(true, true); player.setVelocityY(-260); this.score += 50; this.scoreText.setText('Puntos: ' + this.score); 
@@ -694,20 +684,22 @@ guspires.setScrollFactor(0);
             this.ejecutarGameOver();
         }
     }
+
+    // PANTALLA GAME OVER //
     ejecutarGameOver() {
         this.physics.pause(); 
         this.player.setTint(0xff0000); 
         if (this.music) this.music.stop();
 
-    // Phaser exige: tiempo, función, argumentos de la función (vacío []), y contexto (this)
-    this.time.delayedCall(1000, () => {
+    
+        this.time.delayedCall(1000, () => {
 
         let telonNegro = this.add.graphics();
         telonNegro.fillStyle(0x000000, 1);
         telonNegro.fillRect(0, 0, 640, 360);
         telonNegro.setScrollFactor(0).setDepth(1000);
 
-        // Se usa una plantilla de cadena (backticks `) para asegurar que el texto y los puntos se fusionen sin errores de sintaxis
+        
         this.add.text(320, 180, '¡GAME OVER!\nPuntos: ' + this.score, {
             fontSize: '48px', 
             fill: '#ff0000', 
@@ -727,7 +719,7 @@ guspires.setScrollFactor(0);
 }
 
 
-////// Configuración del Juego //////
+////// CONFIGURACIÓ DEL JOC //////
 
 const config = {
     type: Phaser.AUTO,
