@@ -425,7 +425,7 @@ class Level2Scene extends Phaser.Scene {
         this.music = this.sound.add("music", { loop: true, volume: 0.5 });
         this.music.play();
 
-       // 3. GRUPS AMB FÍSIQUES //
+       // 3. GRUPS AMB FÍSIQUES PROVA PER A COMMIT EN RAMA NOVA//
         this.plataformasEstaticas = this.physics.add.staticGroup();
         this.bombs = this.physics.add.group();
         this.enemies = this.physics.add.group();
