@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.12.1" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="11" nextobjectid="35">
+ <editorsettings>
+  <export target="mapa1.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="player" tilewidth="64" tileheight="64" tilecount="600" columns="30">
+  <image source="fons.png" width="1920" height="1280"/>
+ </tileset>
+ <tileset firstgid="601" name="platform" tilewidth="64" tileheight="64" tilecount="4" columns="0">
+  <grid orientation="orthogonal" width="1" height="1"/>
+  <tile id="0">
+   <image source="bomb.png" width="64" height="64"/>
+  </tile>
+  <tile id="1">
+   <image source="coin.png" width="64" height="64"/>
+  </tile>
+  <tile id="2">
+   <image source="enemy.png" width="64" height="64"/>
+  </tile>
+  <tile id="3">
+   <image source="platform.png" width="64" height="64"/>
+   <objectgroup draworder="index" id="2">
+    <object id="1" x="1" y="-1" width="63" height="64"/>
+   </objectgroup>
+  </tile>
+ </tileset>
+ <imagelayer id="2" name="fons">
+  <image source="fons.png" width="1920" height="1280"/>
+ </imagelayer>
+ <layer id="1" name="plataformes" width="30" height="20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,604,604,604,604,604,604,604,0,0,0,0,
+0,604,604,604,604,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,604,604,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,604,604,604,604,604,604,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,604,604,604,604,604,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,604,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,604,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,604,604,604,604,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,604,604,604,604,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+604,604,604,604,604,604,604,604,0,0,0,0,0,0,0,0,0,0,0,0,604,604,604,604,604,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="7" name="monedes">
+  <object id="29" gid="602" x="68" y="250.182" width="64" height="64"/>
+  <object id="30" gid="602" x="392.242" y="450.182" width="64" height="64"/>
+  <object id="31" gid="602" x="1216.48" y="195.636" width="64" height="64"/>
+  <object id="32" gid="602" x="1668" y="504.727" width="64" height="64"/>
+  <object id="33" gid="602" x="1540.73" y="1019.88" width="64" height="64"/>
+  <object id="34" gid="602" x="701.333" y="835.03" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup id="8" name="enemics">
+  <object id="25" gid="603" x="1089.21" y="644.121" width="64" height="64"/>
+  <object id="26" gid="603" x="1025.58" y="319.878" width="64" height="64"/>
+  <object id="28" gid="603" x="1343.76" y="1016.85" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup id="9" name="player">
+  <object id="20" name="spawn" x="160" y="1020">
+   <point/>
+  </object>
+ </objectgroup>
+ <objectgroup id="10" name="enemics explosius">
+  <object id="23" gid="601" x="577.091" y="441.091" width="64" height="64"/>
+  <object id="24" gid="601" x="1789.21" y="895.636" width="64" height="64"/>
+ </objectgroup>
+</map>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+<meta charset="UTF-8">    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tales of Gaia</title>
+<link rel="stylesheet" href="style.css">
+</head>  
+<body>
+
+    <header>
+
+        <div class="top-bar">
+            <button onclick="toggleTextSize()">A Text Gran</button>
+            <button onclick="toggleContrast()"> Mode Alt Contrast</button>
+            <button>⚙</button> 
+        </div>
+
+        <img src="img/logo.png" class="logo">
+
+        <nav>
+            <a href="index.html">Índex</a>
+            <a href="videojoc.html">Videojoc</a>
+            <a href="contacte.html">Contacte</a>
+        </nav>
+    </header>
+
+    <main class="contact-page">
+
+        <div class="title-form">
+        <h1>Registra't</h1>
+        </div>
+
+        <form id="formulari">
+
+            <input type="text" id="nom" placeholder="Nom">
+            <input type="date" id="data" placeholder="Data de naixement">
+            <input type="text" id="pais" placeholder="Pais">
+            <input type="email" id="email" placeholder="Correu electrònic">
+            <input type="password" id="contrasenya" placeholder="Contrsenya">
+
+            <button type="submit">Enviar</button>
+          
+        </form>
+
+        <p id="error"></p>
+    </main>
+
+    <script src="script.js"></script>
+    
+</body>
+</html>
